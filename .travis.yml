@@ -12,6 +12,7 @@ before_install:
   - gem --version
 
 script:
+  - bundle exec rubocop
   - bundle exec rspec
 
 notifications:

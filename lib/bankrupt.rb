@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Read assets from a local cache, using files on disk for development and
+# from a CDN url if the CDN constant is set.
 module Bankrupt
   ASSET = Struct.new(:path, :sri).freeze
 
