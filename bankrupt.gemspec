@@ -19,5 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
 
+  spec.add_dependency 'slim', '~> 3.0'
+
   spec.add_development_dependency "bundler", "~> 1.16"
 end
