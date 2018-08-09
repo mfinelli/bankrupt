@@ -8,3 +8,49 @@
 
 A [sinatra](http://sinatrarb.com) helper to path assets during development and
 production.
+
+## Usage
+
+### Sinatra
+
+### Rake
+
+You can use the bundled rake task to generate the manifest file in the correct
+format using any assets found in the `public` folder. You can also upload the
+assets to an s3 bucket for use with cloudfront as a CDN.
+
+Make sure to add the extra dependencies to your gemfile:
+
+```ruby
+gem 'aws-sdk-s3'
+gem 'mini_mime'
+```
+
+In your rakefile you'll need to define several constants and then include
+the tasks:
+
+```ruby
+require 'bankrupt/tasks'
+require 'logger'
+
+APP_ROOT = __dir__.freeze unless defined?(APP_ROOT)
+CDN_BUCKET = 'your-s3-bucket'.freeze unless defined?(CDN_BUCKET)
+CDN_PREFIX = 'project'.freeze unless defined?(CDN_PREFIX)
+
+unless defined?(VERSION)
+  VERSION = JSON.parse(File.read(File.join(APP_ROOT, 'package.json')),
+                       symbolize_names: true).fetch(:version).freeze
+end
+
+LOG = Logger.new(STDOUT) unless defined?(LOG)
+```
+
+Finally set your default task:
+
+```ruby
+task default: if ENV['CLOUDBUILD'].to_s.casecmp?('true')
+                %i[bankrupt:cdn]
+              else
+                %i[bankrupt:manifest]
+              end
+```
