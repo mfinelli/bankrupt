@@ -13,6 +13,42 @@ production.
 
 ### Sinatra
 
+Before loading your a few constants:
+
+```ruby
+CDN = CONFIG[:cdn_url].to_s.freeze
+
+ASSETS = begin
+  Hash[
+    JSON.parse(
+      File.read(File.join(APP_ROOT, 'tmp', 'assets.json'))
+    ).map do |k, v|
+      [k, Hash[v.map { |l, b| [l.to_sym, b] }]]
+    end
+  ].freeze
+rescue StandardError
+  {}
+end
+```
+
+Then include bankrupt as a helper in your app:
+
+```ruby
+require 'bankrupt'
+
+class App < Sinatra::Base
+  set :public_folder, File.join(APP_ROOT, 'public')
+
+  helpers Bankrupt
+
+  # TODO: there is a better way to do this
+  def initialize
+    @_assets = {}
+    super
+  end
+end
+```
+
 ### Rake
 
 You can use the bundled rake task to generate the manifest file in the correct
