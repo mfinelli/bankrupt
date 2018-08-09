@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'slim'
 require_relative '../lib/bankrupt'
 
 RSpec.describe Bankrupt do
