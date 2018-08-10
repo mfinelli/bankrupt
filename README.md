@@ -18,17 +18,10 @@ Before loading your app set a few constants:
 ```ruby
 CDN = CONFIG[:cdn_url].to_s.freeze
 
-ASSETS = begin
-  Hash[
-    JSON.parse(
-      File.read(File.join(APP_ROOT, 'tmp', 'assets.json'))
-    ).map do |k, v|
-      [k, Hash[v.map { |l, b| [l.to_sym, b] }]]
-    end
-  ].freeze
-rescue StandardError
-  {}
-end
+require 'bankrupt/util'
+ASSETS = Bankrupt::Util.parse_manifest(
+  File.join(APP_ROOT, 'tmp', 'assets.json')
+).freeze
 ```
 
 Then include bankrupt as a helper in your app:
