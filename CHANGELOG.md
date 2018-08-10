@@ -3,6 +3,15 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
+## v1.0.0 2018-08-10
+
+First stable release. Combines all old, internal code (rake tasks, helper
+module) with new updates (modification for public release, utility methods).
+
+* Add rake task for generating manifest files.
+* Add rake task for uploading assets to AWS s3 bucket.
+* Add utility method for parsing manifest files.
+
 ## v0.1.0 2018-07-25
 
 Initial release.
