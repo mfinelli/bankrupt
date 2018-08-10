@@ -13,7 +13,7 @@ production.
 
 ### Sinatra
 
-Before loading your a few constants:
+Before loading your app set a few constants:
 
 ```ruby
 CDN = CONFIG[:cdn_url].to_s.freeze
