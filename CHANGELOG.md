@@ -3,6 +3,10 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
+## v1.0.1 2018-12-30
+
+Add support for slim v4.
+
 ## v1.0.0 2018-08-10
 
 First stable release. Combines all old, internal code (rake tasks, helper
