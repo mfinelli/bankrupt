@@ -42,6 +42,22 @@ class App < Sinatra::Base
 end
 ```
 
+Now, in your views you can use the helper methods:
+
+```slim
+== stylesheet('app.css')
+```
+
+In development mode it will load app.css from your local public directory but
+in production it will load the CDN URL and include integrity hashes and
+anonymous crossorigin attributes.
+
+There's also a helper for `script` tags:
+
+```slim
+== javascript('app.js')
+```
+
 ### Rake
 
 You can use the bundled rake task to generate the manifest file in the correct
@@ -82,6 +98,34 @@ task default: if ENV['CLOUDBUILD'].to_s.casecmp?('true')
               else
                 %i[bankrupt:manifest]
               end
+```
+
+### Rspec
+
+If you're testing your app with rspec or similar you need to stub the `CDN` and
+`ASSETS` constants.
+
+```ruby
+require 'rack/test'
+
+RSpec.describe App do
+  include Rack::Test::Methods
+
+  before do
+    stub_const('CDN', '')
+    stub_const('ASSETS', {})
+  end
+
+  let(:app) { described_class }
+
+  describe 'GET /' do
+    before { get '/' }
+
+    it 'returns a 200' do
+      expect(last_response).to be_ok
+    end
+  end
+end
 ```
 
 ## License
