@@ -80,6 +80,7 @@ module Bankrupt
   # @return [String] new, full path to the asset
   def create_fullpath(path, md5)
     return "/#{path}" if CDN.empty?
+
     [CDN, append_md5(path, md5)].join('/')
   end
 
