@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018 Mario Finelli
+# Copyright 2018-2019 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,6 +23,328 @@ RSpec.describe Bankrupt do
       include Bankrupt
       def initialize
         @_assets = {}
+      end
+    end
+  end
+
+  describe '#image' do
+    context 'with options' do
+      let(:options) { { class: 'img', alt: 'img' } }
+
+      context 'with no cdn url' do
+        before { stub_const('CDN', '') }
+
+        context 'with the asset in the manifest' do
+          before do
+            stub_const('ASSETS',
+                       'img/life.jpg' => {
+                         filename: 'img/life.jpg',
+                         md5: 'abc',
+                         sri: '123'
+                       },
+                       'img/wow.jpg' => {
+                         filename: 'img/wow.jpg',
+                         md5: 'def',
+                         sri: '456'
+                       },
+                       'img/pod.jpg' => {
+                         filename: 'img/pod.jpg',
+                         md5: 'ghi',
+                         sri: '789'
+                       })
+          end
+
+          context 'with the asset in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'returns the compiled asset' do
+              i._assets['/img/life.jpg'] = 'i exist!'
+              expect(i.image('img/life.jpg', options)).to eq('i exist!')
+            end
+          end
+
+          context 'with the asset not in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'adds it to the lookup cache' do
+              i.image('img/wow.jpg', options)
+              expect(i._assets['/img/wow.jpg']).to eq('<img ' \
+                'alt="img" class="img" crossorigin="anonymous" ' \
+                'src="/img/wow.jpg" />')
+            end
+
+            it 'returns the expected html' do
+              expect(i.image('img/pod.jpg', options)).to eq('<img ' \
+                'alt="img" class="img" crossorigin="anonymous" ' \
+                'src="/img/pod.jpg" />')
+            end
+          end
+        end
+
+        context 'with the asset not in the manifest' do
+          before { stub_const('ASSETS', {}) }
+
+          context 'with the asset in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'returns the compiled asset' do
+              i._assets['/img/key.jpg'] = 'i already exist'
+              expect(i.image('img/key.jpg', options)).to eq('i already exist')
+            end
+          end
+
+          context 'with the asset not in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'adds it to the lookup cache' do
+              i.image('img/another.jpg', options)
+              expect(i._assets['/img/another.jpg']).to eq('<img ' \
+                'alt="img" class="img" src="/img/another.jpg" />')
+            end
+
+            it 'returns the expected html' do
+              expect(i.image('img/major.jpg', options)).to eq('<img ' \
+                'alt="img" class="img" src="/img/major.jpg" />')
+            end
+          end
+        end
+      end
+
+      context 'with a cdn url' do
+        before { stub_const('CDN', 'https://example.com') }
+
+        context 'with the asset in the manifest' do
+          before do
+            stub_const('ASSETS',
+                       'img/you.jpg' => {
+                         filename: 'img/you.jpg',
+                         md5: 'abc',
+                         sri: '123'
+                       },
+                       'img/top.jpg' => {
+                         filename: 'img/top.jpg',
+                         md5: 'def',
+                         sri: '456'
+                       },
+                       'img/bag.jpg' => {
+                         filename: 'img/bag.jpg',
+                         md5: 'ghi',
+                         sri: '789'
+                       })
+          end
+
+          context 'with the asset in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'returns the compiled asset' do
+              i._assets['/img/you.jpg'] = 'already here'
+              expect(i.image('img/you.jpg', options)).to eq('already here')
+            end
+          end
+
+          context 'with the asset not in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'adds it to the lookup cache' do
+              i.image('img/top.jpg', options)
+              expect(i._assets['/img/top.jpg']).to eq('<img ' \
+                'alt="img" class="img" crossorigin="anonymous" ' \
+                'src="https://example.com/img/top-def.jpg" />')
+            end
+
+            it 'returns the expected html' do
+              expect(i.image('img/bag.jpg', options)).to eq('<img ' \
+                'alt="img" class="img" crossorigin="anonymous" ' \
+                'src="https://example.com/img/bag-ghi.jpg" />')
+            end
+          end
+        end
+
+        context 'with the asset not in the manifest' do
+          before { stub_const('ASSETS', {}) }
+
+          context 'with the asset in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'returns the compiled asset' do
+              i._assets['/img/strap.jpg'] = 'yes'
+              expect(i.image('img/strap.jpg', options)).to eq('yes')
+            end
+          end
+
+          context 'with the asset not in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'adds it to the lookup cache' do
+              i.image('img/card.jpg', options)
+              expect(i._assets['/img/card.jpg']).to eq('<img ' \
+                'alt="img" class="img" src="/img/card.jpg" />')
+            end
+
+            it 'returns the expected html' do
+              expect(i.image('img/side.jpg', options)).to eq('<img ' \
+                'alt="img" class="img" src="/img/side.jpg" />')
+            end
+          end
+        end
+      end
+    end
+
+    context 'with no options' do
+      context 'with no cdn url' do
+        before { stub_const('CDN', '') }
+
+        context 'with the asset in the manifest' do
+          before do
+            stub_const('ASSETS',
+                       'img/life.jpg' => {
+                         filename: 'img/life.jpg',
+                         md5: 'abc',
+                         sri: '123'
+                       },
+                       'img/wow.jpg' => {
+                         filename: 'img/wow.jpg',
+                         md5: 'def',
+                         sri: '456'
+                       },
+                       'img/pod.jpg' => {
+                         filename: 'img/pod.jpg',
+                         md5: 'ghi',
+                         sri: '789'
+                       })
+          end
+
+          context 'with the asset in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'returns the compiled asset' do
+              i._assets['/img/life.jpg'] = 'i exist!'
+              expect(i.image('img/life.jpg')).to eq('i exist!')
+            end
+          end
+
+          context 'with the asset not in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'adds it to the lookup cache' do
+              i.image('img/wow.jpg')
+              expect(i._assets['/img/wow.jpg']).to eq('<img ' \
+                'crossorigin="anonymous" src="/img/wow.jpg" />')
+            end
+
+            it 'returns the expected html' do
+              expect(i.image('img/pod.jpg')).to eq('<img ' \
+                'crossorigin="anonymous" src="/img/pod.jpg" />')
+            end
+          end
+        end
+
+        context 'with the asset not in the manifest' do
+          before { stub_const('ASSETS', {}) }
+
+          context 'with the asset in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'returns the compiled asset' do
+              i._assets['/img/key.jpg'] = 'i already exist'
+              expect(i.image('img/key.jpg')).to eq('i already exist')
+            end
+          end
+
+          context 'with the asset not in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'adds it to the lookup cache' do
+              i.image('img/another.jpg')
+              expect(i._assets['/img/another.jpg']).to eq('<img ' \
+                'src="/img/another.jpg" />')
+            end
+
+            it 'returns the expected html' do
+              expect(i.image('img/major.jpg')).to eq('<img ' \
+                'src="/img/major.jpg" />')
+            end
+          end
+        end
+      end
+
+      context 'with a cdn url' do
+        before { stub_const('CDN', 'https://example.com') }
+
+        context 'with the asset in the manifest' do
+          before do
+            stub_const('ASSETS',
+                       'img/you.jpg' => {
+                         filename: 'img/you.jpg',
+                         md5: 'abc',
+                         sri: '123'
+                       },
+                       'img/top.jpg' => {
+                         filename: 'img/top.jpg',
+                         md5: 'def',
+                         sri: '456'
+                       },
+                       'img/bag.jpg' => {
+                         filename: 'img/bag.jpg',
+                         md5: 'ghi',
+                         sri: '789'
+                       })
+          end
+
+          context 'with the asset in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'returns the compiled asset' do
+              i._assets['/img/you.jpg'] = 'already here'
+              expect(i.image('img/you.jpg')).to eq('already here')
+            end
+          end
+
+          context 'with the asset not in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'adds it to the lookup cache' do
+              i.image('img/top.jpg')
+              expect(i._assets['/img/top.jpg']).to eq('<img ' \
+                'crossorigin="anonymous" ' \
+                'src="https://example.com/img/top-def.jpg" />')
+            end
+
+            it 'returns the expected html' do
+              expect(i.image('img/bag.jpg')).to eq('<img ' \
+                'crossorigin="anonymous" ' \
+                'src="https://example.com/img/bag-ghi.jpg" />')
+            end
+          end
+        end
+
+        context 'with the asset not in the manifest' do
+          before { stub_const('ASSETS', {}) }
+
+          context 'with the asset in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'returns the compiled asset' do
+              i._assets['/img/strap.jpg'] = 'yes'
+              expect(i.image('img/strap.jpg')).to eq('yes')
+            end
+          end
+
+          context 'with the asset not in the lookup cache' do
+            let(:i) { klass.new }
+
+            it 'adds it to the lookup cache' do
+              i.image('img/card.jpg')
+              expect(i._assets['/img/card.jpg']).to eq('<img ' \
+                'src="/img/card.jpg" />')
+            end
+
+            it 'returns the expected html' do
+              expect(i.image('img/side.jpg')).to eq('<img ' \
+                'src="/img/side.jpg" />')
+            end
+          end
+        end
       end
     end
   end

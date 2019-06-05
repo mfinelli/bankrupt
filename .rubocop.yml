@@ -20,4 +20,4 @@ Metrics/MethodLength:
   Max: 15
 
 RSpec/NestedGroups:
-  Max: 5
+  Max: 6
