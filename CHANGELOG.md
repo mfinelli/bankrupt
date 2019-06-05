@@ -3,6 +3,10 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
+## v1.1.0 2019-06-05
+
+Add support for `img` tags along with the ability to add other attributes.
+
 ## v1.0.1 2018-12-30
 
 Add support for slim v4.
