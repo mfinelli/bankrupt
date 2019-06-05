@@ -58,6 +58,13 @@ There's also a helper for `script` tags:
 == javascript('app.js')
 ```
 
+For images you can optionally pass a hash of options to apply additional
+attributes to the image:
+
+```slim
+== image(img.jpg, alt: 'img')
+```
+
 ### Rake
 
 You can use the bundled rake task to generate the manifest file in the correct

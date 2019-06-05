@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018 Mario Finelli
+# Copyright 2018-2019 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,14 @@ require 'slim'
 module Bankrupt
   ASSET = Struct.new(:path, :sri).freeze
 
+  IMAGE_CDN = <<~SLIM
+    img crossorigin='anonymous' src=path
+  SLIM
+
+  IMAGE_LOCAL = <<~SLIM
+    img src=path
+  SLIM
+
   JAVASCRIPT_CDN = <<~SLIM
     script crossorigin='anonymous' integrity=sri src=path
   SLIM
@@ -36,6 +44,24 @@ module Bankrupt
   STYLESHEET_LOCAL = <<~SLIM
     link href=path rel='stylesheet'
   SLIM
+
+  # Return an image html tag for the asset.
+  #
+  # @todo we compute the options on every call, we should do the
+  #        lookup first and short circuit
+  # @todo lookup needs to be based on path _and_ options so that the
+  #        same asset can be used in multiple places with e.g. different
+  #        css classes applied
+  #
+  # @param path [String] relative (from public) path to the img
+  # @param options [Hash] additional attributes to add to the img tag
+  # @return [String] image html element
+  def image(path, options = {})
+    o = Hash(options).map { |k, v| "#{k}='#{v}'" }.join(' ')
+
+    asset_html(path, [IMAGE_CDN.chomp, o].join(' '),
+               [IMAGE_LOCAL.chomp, o].join(' '))
+  end
 
   # Return a javascript html tag for the asset.
   #
