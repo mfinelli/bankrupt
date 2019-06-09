@@ -81,7 +81,7 @@ namespace :bankrupt do
       }
     end
 
-    LOG.info "Generated asset manifest with #{manifest.keys.size} entries."
+    LOG.info "Generated asset manifest with #{manifest.keys.size} entries"
 
     FileUtils.mkdir_p(File.join(APP_ROOT, 'tmp'))
     File.write(File.join(APP_ROOT, 'tmp', 'assets.json'),
