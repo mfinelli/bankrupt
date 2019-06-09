@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018 Mario Finelli
+# Copyright 2018-2019 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,19 +22,19 @@ RSpec.describe Bankrupt::Util do
 
     let(:parsed) do
       {
-        'app.css' =>
-         {
-           filename: 'app.css',
-           md5: 'de103ea8f44fbb825e5473330a044ce7',
-           babble: 'xulic-bozap-mitig-zivom-daleh-gasyf-fydib-gufuv-luxyx',
-           sri: 'sha384-8ZoS950YSriGplctgmHuPrmATUDeXhr7uNAOLjBr0Bvf8rK6kXNbTjAIg+dsndV4'
-         },
-        'app.js' =>
-        {
+        'app.css' => {
+          filename: 'app.css',
+          md5: 'a4197ed8dcb93d681801318bd25a41ed',
+          babble: 'xonac-nozat-melar-nyzok-mukab-cosim-rigyh-pibuv-texyx',
+          sri: 'sha384-3RDtjniIi2E/mmvcXsOOfu/zxDaJoztI9CiXJ4wWylYEw5ReQ+1' \
+            'HKelRqeQozAmx'
+        },
+        'app.js' => {
           filename: 'app.js',
-          md5: 'd35bd25b09a2bfb2287cc7fd34355ef0',
-          babble: 'xugoh-rugah-radap-dyzyr-dapel-sycoz-tataf-hulyz-bexyx',
-          sri: 'sha384-elD8v2HdWnnSjP8gWmCo6tkrQ06ch/H5UA1RSFZRQFwPuaSqvsO4EXRYmfh2mUMl'
+          md5: '9b33890bb13bb1d8f975e9ab3902c05f',
+          babble: 'xokof-fodyb-rysof-reset-mevel-hypip-ravib-dibyh-zaxyx',
+          sri: 'sha384-b6Ge3qiUuSOTxlLyaCcrcVvMFp9rKcrpxcRlpfVGV6ILhqC7OEpJ' \
+            'ezUEfTE6KZ/T'
         }
       }
     end

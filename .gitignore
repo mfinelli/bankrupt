@@ -3,6 +3,7 @@
 /coverage
 /doc
 /Gemfile.lock
+/spec/fixtures/tmp
 /vendor/bundle
 /*.gem
 /*.gem.asc

@@ -22,9 +22,10 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ['lib']
 
-  # spec.add_dependency 'aws-sdk-s3', '~> 1.0'
-  # spec.add_dependency 'mini_mime', '~> 1.0'
   spec.add_dependency 'slim', '>= 3.0', '< 5.0'
+  spec.add_development_dependency 'aws-sdk-s3'
+  spec.add_development_dependency 'mini_mime'
+  spec.add_development_dependency 'rake'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'coveralls'

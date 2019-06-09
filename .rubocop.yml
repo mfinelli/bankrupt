@@ -12,12 +12,12 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*_spec.rb'
 
-Metrics/LineLength:
-  Exclude:
-    - 'spec/bankrupt/util_spec.rb'
-
 Metrics/MethodLength:
   Max: 15
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/bankrupt/tasks_spec.rb'
 
 RSpec/NestedGroups:
   Max: 6
