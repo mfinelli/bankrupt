@@ -8,7 +8,7 @@ Layout/ExtraSpacing:
   AllowForAlignment: false
 
 Metrics/BlockLength:
-  Max: 60
+  Max: 80
   Exclude:
     - 'spec/**/*_spec.rb'
 

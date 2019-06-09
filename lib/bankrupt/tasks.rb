@@ -54,6 +54,39 @@ namespace :bankrupt do
     end
   end
 
+  desc 'Purge files that no longer exist in the manifest from s3/cloudfront'
+  task purge: [:manifest] do
+    s3 = Aws::S3::Client.new(region: 'eu-west-1')
+
+    r = s3.list_objects_v2(bucket: CDN_BUCKET, prefix: CDN_PREFIX)
+    cdn = r[:contents].collect(&:key)
+
+    local = JSON.parse(File.read(File.join(APP_ROOT, 'tmp', 'assets.json')),
+                       symbolize_names: true).map do |_key, asset|
+      File.join(
+        CDN_PREFIX,
+        [[asset[:filename].split(ex = File.extname(asset[:filename])).first,
+          asset[:md5]].join('-'), ex].join
+      )
+    end
+
+    if local.empty?
+      LOG.error 'Local manifest returned zero assets, not purging anything'
+      exit!
+    end
+
+    keys = (cdn - local).map do |key|
+      LOG.info "Going to purge #{key}"
+
+      {
+        key: key
+      }
+    end
+
+    d = s3.delete_objects(bucket: CDN_BUCKET, delete: { objects: keys })
+    LOG.info "Purged #{d.deleted.size} objects from s3"
+  end
+
   desc 'Generate an asset manifest file with sums and hashes'
   task :manifest do
     manifest = {}

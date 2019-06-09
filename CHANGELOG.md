@@ -6,6 +6,8 @@ which adheres to [semantic versioning](https://semver.org).
 ## unreleased
 
 * Set cache-control header on objects uploaded to s3 (1 year).
+* Add new rake task to remove old objects (anything not in the current
+  manifest) from s3.
 
 ## v1.1.0 2019-06-05
 
