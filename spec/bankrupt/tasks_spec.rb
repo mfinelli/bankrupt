@@ -23,6 +23,10 @@ RSpec.describe 'bankrupt' do
                                           '..', 'fixtures')))
     stub_const('LOG', Logger.new(File::NULL))
 
+    stub_const('CDN_BUCKET', 'bankrupt-test')
+    stub_const('CDN_PREFIX', 'test')
+    stub_const('VERSION', '1.0.0')
+
     # test that we rename files that have the hash in them from webpack
     File.rename(
       File.join(APP_ROOT, 'public', 'app.js'),
@@ -53,5 +57,62 @@ RSpec.describe 'bankrupt' do
         File.read(File.join(APP_ROOT, 'assets.json')).chomp
       )
     end
+  end
+
+  describe 'cdn' do
+    before do
+      Rake::Task['bankrupt:manifest'].reenable
+      Rake::Task['bankrupt:manifest'].invoke
+      Rake::Task['bankrupt:cdn'].reenable
+    end
+
+    let(:s3_double) { Aws::S3::Client.new(stub_responses: true) }
+    let(:s3_response) do
+      class MockResponse
+        def etag
+          'ok'
+        end
+      end
+
+      MockResponse.new
+    end
+
+    # rubocop:disable RSpec/ExampleLength
+    it 'uploads files to s3' do
+      allow(Aws::S3::Client).to receive(:new).and_return(s3_double)
+
+      expect(s3_double).to receive(:put_object).with(
+        bucket: 'bankrupt-test',
+        key: 'test/app-a4197ed8dcb93d681801318bd25a41ed.css',
+        body: "body {\n  color: red;\n}\n",
+        acl: 'private',
+        content_length: 23,
+        content_type: 'text/css',
+        cache_control: 'public, max-age=31536000',
+        server_side_encryption: 'AES256',
+        storage_class: 'STANDARD',
+        metadata: {
+          bankruptVersion: 'v1.0.0'
+        }
+      ).and_return(s3_response)
+
+      expect(s3_double).to receive(:put_object).with(
+        bucket: 'bankrupt-test',
+        key: 'test/app-9b33890bb13bb1d8f975e9ab3902c05f.js',
+        body: "alert('yolo');\n",
+        acl: 'private',
+        content_length: 15,
+        content_type: 'application/ecmascript',
+        cache_control: 'public, max-age=31536000',
+        server_side_encryption: 'AES256',
+        storage_class: 'STANDARD',
+        metadata: {
+          bankruptVersion: 'v1.0.0'
+        }
+      ).and_return(s3_response)
+
+      Rake::Task['bankrupt:cdn'].invoke
+    end
+    # rubocop:enable RSpec/ExampleLength
   end
 end

@@ -19,5 +19,12 @@ RSpec/DescribeClass:
   Exclude:
     - 'spec/bankrupt/tasks_spec.rb'
 
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - 'spec/bankrupt/tasks_spec.rb'
+
 RSpec/NestedGroups:
   Max: 6
