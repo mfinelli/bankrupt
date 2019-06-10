@@ -9,6 +9,9 @@ which adheres to [semantic versioning](https://semver.org).
 * Add new rake task to remove old objects (anything not in the current
   manifest) from s3.
 * Extend test covertage to rake tasks.
+* Drop support for ruby 2.3.x which might be considered breaking, but has
+  actually always been the case just unnoticed until the test coverage was
+  extended and exposed the problem, so I'm considering it a bugfix.
 
 ## v1.1.0 2019-06-05
 

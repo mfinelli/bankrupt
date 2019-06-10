@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.description = 'Load files from local disk or from a CDN in production.'
   spec.homepage = 'https://github.com/mfinelli/bankrupt'
   spec.license = 'Apache-2.0'
-  spec.required_ruby_version = '>= 2.3.0'
+  spec.required_ruby_version = '>= 2.4.0'
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
