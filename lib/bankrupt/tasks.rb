@@ -72,7 +72,7 @@ namespace :bankrupt do
 
     if local.empty?
       LOG.error 'Local manifest returned zero assets, not purging anything'
-      exit!
+      exit(1)
     end
 
     keys = (cdn - local).map do |key|
