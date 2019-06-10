@@ -77,7 +77,6 @@ RSpec.describe 'bankrupt' do
       MockResponse.new
     end
 
-    # rubocop:disable RSpec/ExampleLength
     it 'uploads files to s3' do
       allow(Aws::S3::Client).to receive(:new).and_return(s3_double)
 
@@ -113,6 +112,54 @@ RSpec.describe 'bankrupt' do
 
       Rake::Task['bankrupt:cdn'].invoke
     end
-    # rubocop:enable RSpec/ExampleLength
+  end
+
+  describe 'purge' do
+    before do
+      Rake::Task['bankrupt:manifest'].reenable
+      Rake::Task['bankrupt:manifest'].invoke
+      Rake::Task['bankrupt:purge'].reenable
+    end
+
+    let(:s3_double) { Aws::S3::Client.new(stub_responses: true) }
+    let(:s3_response) do
+      class MockResponse
+        def deleted
+          [1]
+        end
+      end
+
+      MockResponse.new
+    end
+
+    it 'exits when there aren\'t any files in the manifest' do
+      allow(Aws::S3::Client).to receive(:new).and_return(s3_double)
+      allow(s3_double).to receive(:list_objects_v2).and_return(contents: [])
+      allow(JSON).to receive(:parse).and_return({})
+
+      expect { Rake::Task['bankrupt:purge'].invoke }.to(
+        raise_exception(SystemExit) do |ex|
+          expect(ex.status).to eq(1)
+        end
+      )
+    end
+
+    it 'deletes the objects not in the manifest' do
+      allow(Aws::S3::Client).to receive(:new).and_return(s3_double)
+
+      s3_double.stub_responses(:list_objects_v2, contents:
+        [
+          { key: 'test/app-123.css' },
+          { key: 'test/app-9b33890bb13bb1d8f975e9ab3902c05f.js' },
+          { key: 'test/app-a4197ed8dcb93d681801318bd25a41ed.css' }
+        ])
+
+      expect(s3_double).to receive(:delete_objects).with(
+        bucket: 'bankrupt-test',
+        delete: { objects: [{ key: 'test/app-123.css' }] }
+      ).and_return(s3_response)
+
+      Rake::Task['bankrupt:purge'].invoke
+    end
   end
 end

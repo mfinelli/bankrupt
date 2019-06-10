@@ -19,6 +19,10 @@ RSpec/DescribeClass:
   Exclude:
     - 'spec/bankrupt/tasks_spec.rb'
 
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/bankrupt/tasks_spec.rb'
+
 RSpec/MessageSpies:
   Enabled: false
 
