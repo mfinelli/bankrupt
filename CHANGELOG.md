@@ -3,7 +3,10 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
-## unreleased
+## v2.0.0 2019-06-12
+
+This major release changes the default cache behavior of assets uploaded to s3
+to make them expire in one year.
 
 * Set cache-control header on objects uploaded to s3 (1 year).
 * Add new rake task to remove old objects (anything not in the current
