@@ -90,7 +90,7 @@ namespace :bankrupt do
   desc 'Generate an asset manifest file with sums and hashes'
   task :manifest do
     manifest = {}
-    file_glob = '*.{css,jpg,js,png,svg}'
+    file_glob = '*.{css,jpg,js,png,svg,eot,ttf,woff,woff2}'
 
     Dir.glob(File.join(APP_ROOT, 'public', file_glob)) do |file|
       md5 = Digest::MD5.file(file).to_s
