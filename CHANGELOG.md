@@ -3,7 +3,7 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
-## unreleased
+## v2.0.1 2019-07-30
 
 Add support for uploading font files (`eot`, `ttf`, `woff`, and `woff2`) to
 the cdn during the `bankrupt:cdn` rake task.
