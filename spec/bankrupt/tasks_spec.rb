@@ -101,7 +101,7 @@ RSpec.describe 'bankrupt' do
         body: "alert('yolo');\n",
         acl: 'private',
         content_length: 15,
-        content_type: 'application/ecmascript',
+        content_type: 'application/javascript',
         cache_control: 'public, max-age=31536000',
         server_side_encryption: 'AES256',
         storage_class: 'STANDARD',
