@@ -67,15 +67,16 @@ RSpec.describe 'bankrupt' do
     end
 
     let(:s3_double) { Aws::S3::Client.new(stub_responses: true) }
-    let(:s3_response) do
-      class MockResponse
+
+    let(:s3_response_class) do
+      Class.new do
         def etag
           'ok'
         end
       end
-
-      MockResponse.new
     end
+
+    let(:s3_response) { s3_response_class.new }
 
     it 'uploads files to s3' do
       allow(Aws::S3::Client).to receive(:new).and_return(s3_double)
@@ -122,15 +123,16 @@ RSpec.describe 'bankrupt' do
     end
 
     let(:s3_double) { Aws::S3::Client.new(stub_responses: true) }
-    let(:s3_response) do
-      class MockResponse
+
+    let(:s3_response_class) do
+      Class.new do
         def deleted
           [1]
         end
       end
-
-      MockResponse.new
     end
+
+    let(:s3_response) { s3_response_class.new }
 
     it 'exits when there aren\'t any files in the manifest' do
       allow(Aws::S3::Client).to receive(:new).and_return(s3_double)
