@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018-2019 Mario Finelli
+# Copyright 2018-2020 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -95,19 +95,25 @@ module Bankrupt
   #
   # @param file [String] basename of the asset
   # @param digest [String] md5 hash of the asset
-  # @return [String] filename with digest e.g, style-123.css
-  def append_md5(file, digest)
+  # @param hashless [Boolean] if the file doesn't have the hash appended
+  # @return [String] filename with digest e.g, style-123.css (style.css if
+  #                  hashless)
+  def append_md5(file, digest, hashless = false)
+    return file if hashless
+
     [[file.split(ex = File.extname(file)).first, digest].join('-'), ex].join
   end
 
   # Generates the full path to the asset including CDN domain, if set.
   #
   # @param path [String] local path to the asset
+  # @param md5 [String] md5 hash of the asset
+  # @param hashless [Boolean] if the files doesn't have the hash appended
   # @return [String] new, full path to the asset
-  def create_fullpath(path, md5)
+  def create_fullpath(path, md5, hashless = false)
     return "/#{path}" if CDN.empty?
 
-    [CDN, append_md5(path, md5)].join('/')
+    [CDN, append_md5(path, md5, hashless)].join('/')
   end
 
   # Generate the asset HTML. If the asset exists in the lookup hash then
@@ -125,7 +131,7 @@ module Bankrupt
     begin
       details = ASSETS.fetch(path)
 
-      fullpath = create_fullpath(path, details[:md5])
+      fullpath = create_fullpath(path, details[:md5], details[:hashless])
 
       @_assets["/#{path}"] = Slim::Template.new { cdn }.render(
         ASSET.new(fullpath, details[:sri])

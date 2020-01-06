@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018-2019 Mario Finelli
+# Copyright 2018-2020 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,6 +35,14 @@ RSpec.describe Bankrupt::Util do
           babble: 'xokof-fodyb-rysof-reset-mevel-hypip-ravib-dibyh-zaxyx',
           sri: 'sha384-b6Ge3qiUuSOTxlLyaCcrcVvMFp9rKcrpxcRlpfVGV6ILhqC7OEpJ' \
             'ezUEfTE6KZ/T'
+        },
+        'hashless.js' => {
+          filename: 'hashless.js',
+          md5: '13fa42d157be30d32d1a805ff8af1735',
+          babble: 'xegoz-pybat-cihar-vasyt-feroc-pabeh-zavyp-zahef-huxex',
+          sri: 'sha384-yuXgTEKrfw3tBVlRAQnTwfx7w+NcSYkIBMDhm86HfozvIPf9VO5v' \
+            'FKDyiaqCtILC',
+          hashless: true
         }
       }
     end

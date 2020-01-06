@@ -21,6 +21,7 @@ require 'fileutils'
 require 'json'
 require 'mini_mime'
 require 'rake'
+require 'yaml'
 
 namespace :bankrupt do
   desc 'Upload files specified in the manifest to s3/cloudfront'
@@ -31,12 +32,16 @@ namespace :bankrupt do
                symbolize_names: true).each do |_key, asset|
       r = s3.put_object(
         bucket: CDN_BUCKET,
-        key: File.join(CDN_PREFIX,
-                       [[
-                         asset[:filename].split(
-                           ex = File.extname(asset[:filename])
-                         ).first, asset[:md5]
-                       ].join('-'), ex].join),
+        key: if asset[:hashless]
+               File.join(CDN_PREFIX, asset[:filename])
+             else
+               File.join(CDN_PREFIX,
+                         [[
+                           asset[:filename].split(
+                             ex = File.extname(asset[:filename])
+                           ).first, asset[:md5]
+                         ].join('-'), ex].join)
+             end,
         body: File.read(f = File.join(APP_ROOT, 'public', asset[:filename])),
         acl: 'private',
         # content_md5: Base64.strict_encode64(asset[:md5]),
@@ -92,6 +97,13 @@ namespace :bankrupt do
     manifest = {}
     file_glob = '*.{css,jpg,js,pdf,png,svg,eot,ttf,woff,woff2}'
 
+    config = begin
+               YAML.safe_load(File.read(File.join(APP_ROOT, '.bankrupt.yml')),
+                              [], [], true, symbolize_names: true)
+             rescue Errno::ENOENT
+               {}
+             end
+
     Dir.glob(File.join(APP_ROOT, 'public', file_glob)) do |file|
       md5 = Digest::MD5.file(file).to_s
       basename = File.basename(file)
@@ -112,6 +124,16 @@ namespace :bankrupt do
         babble: Digest::MD5.file(file).bubblebabble,
         sri: 'sha384-' + Digest::SHA384.file(file).base64digest.to_s
       }
+
+      Array(config[:hashless]).each do |match|
+        # skip unless the file is in a "hashless" glob
+        next unless Dir.glob(File.join(APP_ROOT, 'public', match)).map do |f|
+                      File.basename(f)
+                    end.include?(basename)
+
+        manifest[basename][:hashless] = true
+        break
+      end
     end
 
     LOG.info "Generated asset manifest with #{manifest.keys.size} entries"

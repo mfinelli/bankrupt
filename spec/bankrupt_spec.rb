@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018-2019 Mario Finelli
+# Copyright 2018-2020 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -130,6 +130,12 @@ RSpec.describe Bankrupt do
                          filename: 'img/bag.jpg',
                          md5: 'ghi',
                          sri: '789'
+                       },
+                       'img/hop.jpg' => {
+                         filename: 'img/hop.jpg',
+                         md5: 'jkl',
+                         sri: '123',
+                         hashless: true
                        })
           end
 
@@ -156,6 +162,16 @@ RSpec.describe Bankrupt do
               expect(i.image('img/bag.jpg', options)).to eq('<img ' \
                 'alt="img" class="img" crossorigin="anonymous" ' \
                 'src="https://example.com/img/bag-ghi.jpg" />')
+            end
+          end
+
+          context 'with a hashless asset' do
+            let(:i) { klass.new }
+
+            it 'returns the expected html' do
+              expect(i.image('img/hop.jpg', options)).to eq('<img ' \
+                'alt="img" class="img" crossorigin="anonymous" ' \
+                'src="https://example.com/img/hop.jpg" />')
             end
           end
         end
@@ -288,6 +304,12 @@ RSpec.describe Bankrupt do
                          filename: 'img/bag.jpg',
                          md5: 'ghi',
                          sri: '789'
+                       },
+                       'img/hop.jpg' => {
+                         filename: 'img/hop.jpg',
+                         md5: 'jkl',
+                         sri: '123',
+                         hashless: true
                        })
           end
 
@@ -314,6 +336,16 @@ RSpec.describe Bankrupt do
               expect(i.image('img/bag.jpg')).to eq('<img ' \
                 'crossorigin="anonymous" ' \
                 'src="https://example.com/img/bag-ghi.jpg" />')
+            end
+          end
+
+          context 'with a hashless asset' do
+            let(:i) { klass.new }
+
+            it 'returns the expected html' do
+              expect(i.image('img/hop.jpg')).to eq('<img ' \
+                'crossorigin="anonymous" ' \
+                'src="https://example.com/img/hop.jpg" />')
             end
           end
         end
@@ -449,6 +481,12 @@ RSpec.describe Bankrupt do
                        filename: 'js/cdn.js',
                        md5: 'ghi',
                        sri: '789'
+                     },
+                     'js/rap.js' => {
+                       filename: 'js/rap.js',
+                       md5: 'jkl',
+                       sri: '123',
+                       hashless: true
                      })
         end
 
@@ -475,6 +513,16 @@ RSpec.describe Bankrupt do
             expect(i.javascript('js/cdn.js')).to eq('<script ' \
               'crossorigin="anonymous" integrity="789" ' \
               'src="https://example.com/js/cdn-ghi.js"></script>')
+          end
+        end
+
+        context 'with a hashless asset' do
+          let(:i) { klass.new }
+
+          it 'returns the expected html' do
+            expect(i.javascript('js/rap.js')).to eq('<script ' \
+            'crossorigin="anonymous" integrity="123" ' \
+            'src="https://example.com/js/rap.js"></script>')
           end
         end
       end
@@ -609,6 +657,12 @@ RSpec.describe Bankrupt do
                        filename: 'css/cdn.css',
                        md5: 'ghi',
                        sri: '789'
+                     },
+                     'css/day.css' => {
+                       filename: 'css/day.css',
+                       md5: 'jkl',
+                       sri: '123',
+                       hashless: true
                      })
         end
 
@@ -636,6 +690,17 @@ RSpec.describe Bankrupt do
             expect(i.stylesheet('css/cdn.css')).to eq('<link ' \
               'crossorigin="anonymous" ' \
               'href="https://example.com/css/cdn-ghi.css" integrity="789" ' \
+              'rel="stylesheet" />')
+          end
+        end
+
+        context 'with a hashless asset' do
+          let(:i) { klass.new }
+
+          it 'returns the expected html' do
+            expect(i.stylesheet('css/day.css')).to eq('<link ' \
+              'crossorigin="anonymous" ' \
+              'href="https://example.com/css/day.css" integrity="123" ' \
               'rel="stylesheet" />')
           end
         end

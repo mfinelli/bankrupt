@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2019 Mario Finelli
+# Copyright 2019-2020 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -88,6 +88,21 @@ RSpec.describe 'bankrupt' do
         acl: 'private',
         content_length: 23,
         content_type: 'text/css',
+        cache_control: 'public, max-age=31536000',
+        server_side_encryption: 'AES256',
+        storage_class: 'STANDARD',
+        metadata: {
+          bankruptVersion: 'v1.0.0'
+        }
+      ).and_return(s3_response)
+
+      expect(s3_double).to receive(:put_object).with(
+        bucket: 'bankrupt-test',
+        key: 'test/hashless.js',
+        body: "alert('hashless');\n",
+        acl: 'private',
+        content_length: 19,
+        content_type: 'application/javascript',
         cache_control: 'public, max-age=31536000',
         server_side_encryption: 'AES256',
         storage_class: 'STANDARD',

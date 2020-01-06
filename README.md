@@ -107,6 +107,17 @@ task default: if ENV['CLOUDBUILD'].to_s.casecmp?('true')
               end
 ```
 
+Note that it's possible to upload some files to the CDN _without_ their hash
+appended. Create a `.bankrupt.yml` file in the root of your project and provide
+an array of file globs to store "hashless":
+
+```yaml
+---
+hashless:
+  - "*.pdf"
+  - "image.png"
+```
+
 ### Rspec
 
 If you're testing your app with rspec or similar you need to stub the `CDN` and
@@ -138,7 +149,7 @@ end
 ## License
 
 ```
-Copyright 2018 Mario Finelli
+Copyright 2018-2020 Mario Finelli
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
