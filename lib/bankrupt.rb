@@ -79,6 +79,17 @@ module Bankrupt
     asset_html(path, STYLESHEET_CDN, STYLESHEET_LOCAL)
   end
 
+  # Get the full path to the asset for use in e.g. a tags.
+  #
+  # @param path [String] relative (from public) path to the asset
+  # @return [String] full path to the asset
+  def raw(path)
+    details = ASSETS.fetch(path)
+    create_fullpath(path, details[:md5], details[:hashless])
+  rescue KeyError
+    "/#{path}"
+  end
+
   private
 
   # Return a precomputed asset path if it exists

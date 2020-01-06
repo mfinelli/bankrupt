@@ -62,7 +62,14 @@ For images you can optionally pass a hash of options to apply additional
 attributes to the image:
 
 ```slim
-== image(img.jpg, alt: 'img')
+== image('img.jpg', alt: 'img')
+```
+
+To get the full path of an asset:
+
+```slim
+a href=raw('file.pdf')
+  | Click me!
 ```
 
 ### Rake

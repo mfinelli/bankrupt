@@ -735,4 +735,84 @@ RSpec.describe Bankrupt do
       end
     end
   end
+
+  describe '#raw' do
+    context 'with no cdn url' do
+      before { stub_const('CDN', '') }
+
+      context 'with the asset in the manifest' do
+        let(:i) { klass.new }
+
+        before do
+          stub_const('ASSETS',
+                     'test.png' => {
+                       filename: 'test.png',
+                       md5: 'abc',
+                       sri: '123'
+                     })
+        end
+
+        it 'returns the correct path' do
+          expect(i.raw('test.png')).to eq('/test.png')
+        end
+      end
+
+      context 'with the asset not in the manifest' do
+        let(:i) { klass.new }
+
+        before { stub_const('ASSETS', {}) }
+
+        it 'returns the correct path' do
+          expect(i.raw('ok.png')).to eq('/ok.png')
+        end
+      end
+    end
+
+    context 'with a cdn url' do
+      before { stub_const('CDN', 'https://example.com') }
+
+      context 'with the asset in the manifest' do
+        before do
+          stub_const('ASSETS',
+                     'cool.png' => {
+                       filename: 'cool.png',
+                       md5: 'abc',
+                       sri: '123'
+                     },
+                     'hope.png' => {
+                       filename: 'hope.png',
+                       md5: 'def',
+                       sri: '456',
+                       hashless: true
+                     })
+        end
+
+        context 'with a normal asset' do
+          let(:i) { klass.new }
+
+          it 'returns the correct path' do
+            expect(i.raw('cool.png')).to eq('https://example.com/cool-abc.png')
+          end
+        end
+
+        context 'with a hashless asset' do
+          let(:i) { klass.new }
+
+          it 'returns the correct path' do
+            expect(i.raw('hope.png')).to eq('https://example.com/hope.png')
+          end
+        end
+      end
+
+      context 'with the asset not in the manifest' do
+        let(:i) { klass.new }
+
+        before { stub_const('ASSETS', {}) }
+
+        it 'returns the correct path' do
+          expect(i.raw('zoom.png')).to eq('/zoom.png')
+        end
+      end
+    end
+  end
 end

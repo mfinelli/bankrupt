@@ -7,6 +7,7 @@ which adheres to [semantic versioning](https://semver.org).
 
 * Add new configuration file and `hashless` option (file glob array) to upload
   files to the CDN without their md5 hash appended.
+* Add new `raw` helper to just return the full URL of an asset.
 * Add upload support for PDF files.
 
 ## v2.0.1 2019-07-30
