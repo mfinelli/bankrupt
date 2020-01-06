@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018-2019 Mario Finelli
+# Copyright 2018-2020 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -90,7 +90,7 @@ namespace :bankrupt do
   desc 'Generate an asset manifest file with sums and hashes'
   task :manifest do
     manifest = {}
-    file_glob = '*.{css,jpg,js,png,svg,eot,ttf,woff,woff2}'
+    file_glob = '*.{css,jpg,js,pdf,png,svg,eot,ttf,woff,woff2}'
 
     Dir.glob(File.join(APP_ROOT, 'public', file_glob)) do |file|
       md5 = Digest::MD5.file(file).to_s
