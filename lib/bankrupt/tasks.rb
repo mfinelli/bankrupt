@@ -104,7 +104,7 @@ namespace :bankrupt do
                {}
              end
 
-    Dir.glob(File.join(APP_ROOT, 'public', file_glob)) do |file|
+    Dir.glob(File.join(APP_ROOT, 'public', file_glob)).sort.each do |file|
       md5 = Digest::MD5.file(file).to_s
       basename = File.basename(file)
 
