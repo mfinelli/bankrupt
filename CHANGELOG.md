@@ -3,7 +3,9 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
-## unreleased
+## v2.1.0 2020-01-06
+
+Add support for unversioned ("hashless") assets.
 
 * Add new configuration file and `hashless` option (file glob array) to upload
   files to the CDN without their md5 hash appended.
