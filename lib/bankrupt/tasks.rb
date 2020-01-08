@@ -68,11 +68,15 @@ namespace :bankrupt do
 
     local = JSON.parse(File.read(File.join(APP_ROOT, 'tmp', 'assets.json')),
                        symbolize_names: true).map do |_key, asset|
-      File.join(
-        CDN_PREFIX,
-        [[asset[:filename].split(ex = File.extname(asset[:filename])).first,
-          asset[:md5]].join('-'), ex].join
-      )
+      if asset[:hashless]
+        File.join(CDN_PREFIX, asset[:filename])
+      else
+        File.join(
+          CDN_PREFIX,
+          [[asset[:filename].split(ex = File.extname(asset[:filename])).first,
+            asset[:md5]].join('-'), ex].join
+        )
+      end
     end
 
     if local.empty?

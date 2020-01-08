@@ -3,6 +3,10 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
+## unreleased
+
+Ensure that the `purge` task works with hashless assets.
+
 ## v2.1.0 2020-01-06
 
 Add support for unversioned ("hashless") assets.
