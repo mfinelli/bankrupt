@@ -167,6 +167,7 @@ RSpec.describe 'bankrupt' do
       s3_double.stub_responses(:list_objects_v2, contents:
         [
           { key: 'test/app-123.css' },
+          { key: 'test/hashless.js' },
           { key: 'test/app-9b33890bb13bb1d8f975e9ab3902c05f.js' },
           { key: 'test/app-a4197ed8dcb93d681801318bd25a41ed.css' }
         ])
