@@ -49,9 +49,6 @@ module Bankrupt
   #
   # @todo we compute the options on every call, we should do the
   #        lookup first and short circuit
-  # @todo lookup needs to be based on path _and_ options so that the
-  #        same asset can be used in multiple places with e.g. different
-  #        css classes applied
   #
   # @param path [String] relative (from public) path to the img
   # @param options [Hash] additional attributes to add to the img tag
@@ -60,7 +57,7 @@ module Bankrupt
     o = Hash(options).map { |k, v| "#{k}='#{v}'" }.join(' ')
 
     asset_html(path, [IMAGE_CDN.chomp, o].join(' '),
-               [IMAGE_LOCAL.chomp, o].join(' '))
+               [IMAGE_LOCAL.chomp, o].join(' '), options)
   end
 
   # Return a javascript html tag for the asset.
@@ -95,9 +92,14 @@ module Bankrupt
   # Return a precomputed asset path if it exists
   #
   # @param path [String] asset on which to perform the lookup
+  # @params options [String] the options string to use in the lookup
   # @return [String] the rendered slim template with the asset in place
-  def lookup(path)
-    @_assets.fetch(path)
+  def lookup(path, options = nil)
+    if actual_options?(options)
+      @_assets.fetch([path, options].join('?'))
+    else
+      @_assets.fetch(path)
+    end
   rescue KeyError
     nil
   end
@@ -133,24 +135,56 @@ module Bankrupt
   # @param path [String] relative path to the asset
   # @param cdn [String] a slim template for generating a cdn asset
   # @param local [String] a slim template for generating a local asset
+  # @param options [String] options as a string to make unique lookups
   # @return [String] the asset html
-  def asset_html(path, cdn, local)
-    if (asset = lookup("/#{path}"))
+  def asset_html(path, cdn, local, options = nil)
+    opts = options_string(options)
+
+    if (asset = lookup("/#{path}", opts))
       return asset
     end
+
+    lookup_path = "/#{actual_options?(opts) ? [path, opts].join('?') : path}"
 
     begin
       details = ASSETS.fetch(path)
 
       fullpath = create_fullpath(path, details[:md5], details[:hashless])
 
-      @_assets["/#{path}"] = Slim::Template.new { cdn }.render(
+      @_assets[lookup_path] = Slim::Template.new { cdn }.render(
         ASSET.new(fullpath, details[:sri])
       )
     rescue KeyError
-      @_assets["/#{path}"] = Slim::Template.new { local }.render(
+      @_assets[lookup_path] = Slim::Template.new { local }.render(
         ASSET.new("/#{path}", nil)
       )
+    end
+  end
+
+  # Turn the options hash into a concatenated string for use in the lookup.
+  #
+  # @param options [Hash] the options has to convert
+  # @return [String] concatenated options suitable for use in lookups
+  def options_string(options)
+    return nil if Hash(options).size.zero?
+
+    options.map do |k, v|
+      [k.to_s, v.to_s].join
+    end.join.gsub(/[^A-Za-z0-9\-_]/, '')
+  end
+
+  # Determine if we actually have options regardless if input is a string,
+  # hash, or nil.
+  #
+  # @param options [String, Hash] options to check
+  # @return [Boolean] true if there are options, false otherwise
+  def actual_options?(options)
+    return false if options.nil?
+
+    if (options.is_a?(String) || options.is_a?(Hash)) && !options.size.zero?
+      true
+    else
+      false
     end
   end
 end

@@ -58,7 +58,7 @@ RSpec.describe Bankrupt do
             let(:i) { klass.new }
 
             it 'returns the compiled asset' do
-              i._assets['/img/life.jpg'] = 'i exist!'
+              i._assets['/img/life.jpg?classimgaltimg'] = 'i exist!'
               expect(i.image('img/life.jpg', options)).to eq('i exist!')
             end
           end
@@ -68,7 +68,7 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/wow.jpg', options)
-              expect(i._assets['/img/wow.jpg']).to eq('<img ' \
+              expect(i._assets['/img/wow.jpg?classimgaltimg']).to eq('<img ' \
                 'alt="img" class="img" crossorigin="anonymous" ' \
                 'src="/img/wow.jpg" />')
             end
@@ -88,7 +88,7 @@ RSpec.describe Bankrupt do
             let(:i) { klass.new }
 
             it 'returns the compiled asset' do
-              i._assets['/img/key.jpg'] = 'i already exist'
+              i._assets['/img/key.jpg?classimgaltimg'] = 'i already exist'
               expect(i.image('img/key.jpg', options)).to eq('i already exist')
             end
           end
@@ -98,8 +98,9 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/another.jpg', options)
-              expect(i._assets['/img/another.jpg']).to eq('<img ' \
-                'alt="img" class="img" src="/img/another.jpg" />')
+              expect(i._assets['/img/another.jpg?classimgaltimg']).to eq(
+                '<img alt="img" class="img" src="/img/another.jpg" />'
+              )
             end
 
             it 'returns the expected html' do
@@ -143,7 +144,7 @@ RSpec.describe Bankrupt do
             let(:i) { klass.new }
 
             it 'returns the compiled asset' do
-              i._assets['/img/you.jpg'] = 'already here'
+              i._assets['/img/you.jpg?classimgaltimg'] = 'already here'
               expect(i.image('img/you.jpg', options)).to eq('already here')
             end
           end
@@ -153,7 +154,7 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/top.jpg', options)
-              expect(i._assets['/img/top.jpg']).to eq('<img ' \
+              expect(i._assets['/img/top.jpg?classimgaltimg']).to eq('<img ' \
                 'alt="img" class="img" crossorigin="anonymous" ' \
                 'src="https://example.com/img/top-def.jpg" />')
             end
@@ -183,7 +184,7 @@ RSpec.describe Bankrupt do
             let(:i) { klass.new }
 
             it 'returns the compiled asset' do
-              i._assets['/img/strap.jpg'] = 'yes'
+              i._assets['/img/strap.jpg?classimgaltimg'] = 'yes'
               expect(i.image('img/strap.jpg', options)).to eq('yes')
             end
           end
@@ -193,7 +194,7 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/card.jpg', options)
-              expect(i._assets['/img/card.jpg']).to eq('<img ' \
+              expect(i._assets['/img/card.jpg?classimgaltimg']).to eq('<img ' \
                 'alt="img" class="img" src="/img/card.jpg" />')
             end
 
