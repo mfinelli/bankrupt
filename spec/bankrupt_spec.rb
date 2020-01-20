@@ -109,6 +109,38 @@ RSpec.describe Bankrupt do
             end
           end
         end
+
+        context 'with the same asset and different options' do
+          before do
+            stub_const('ASSETS',
+                       'img/pic.png' => {
+                         filename: 'img/pic.png',
+                         md5: 'jkl',
+                         sri: '012'
+                       })
+          end
+
+          let(:i) { klass.new }
+
+          it 'creates two lookup entries' do
+            i.image('img/pic.png', class: 'one')
+            i.image('img/pic.png', class: 'two')
+
+            ['/img/pic.png?classone', '/img/pic.png?classtwo'].each do |t|
+              expect(i._assets[t]).not_to be_nil
+            end
+          end
+
+          it 'returns the correct html for the first asset' do
+            expect(i.image('img/pic.png', class: 'one')).to eq('<img ' \
+              'class="one" crossorigin="anonymous" src="/img/pic.png" />')
+          end
+
+          it 'returns the correct html for the second asset' do
+            expect(i.image('img/pic.png', class: 'two')).to eq('<img ' \
+              'class="two" crossorigin="anonymous" src="/img/pic.png" />')
+          end
+        end
       end
 
       context 'with a cdn url' do
