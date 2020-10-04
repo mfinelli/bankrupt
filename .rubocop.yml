@@ -2,10 +2,14 @@
 require: rubocop-rspec
 
 AllCops:
+  NewCops: enable
   TargetRubyVersion: 2.4.0
 
 Layout/ExtraSpacing:
   AllowForAlignment: false
+
+Layout/LineLength:
+  Max: 80
 
 Metrics/AbcSize:
   Max: 20

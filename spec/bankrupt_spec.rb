@@ -20,6 +20,7 @@ RSpec.describe Bankrupt do
   let(:klass) do
     Class.new do
       attr_accessor :_assets
+
       include Bankrupt
       def initialize
         @_assets = {}
