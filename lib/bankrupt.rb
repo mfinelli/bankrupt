@@ -82,7 +82,7 @@ module Bankrupt
   # @return [String] full path to the asset
   def raw(path)
     details = ASSETS.fetch(path)
-    create_fullpath(path, details[:md5], details[:hashless])
+    create_fullpath(path, details[:md5], hashless: details[:hashless])
   rescue KeyError
     "/#{path}"
   end
@@ -111,7 +111,7 @@ module Bankrupt
   # @param hashless [Boolean] if the file doesn't have the hash appended
   # @return [String] filename with digest e.g, style-123.css (style.css if
   #                  hashless)
-  def append_md5(file, digest, hashless = false)
+  def append_md5(file, digest, hashless: false)
     return file if hashless
 
     [[file.split(ex = File.extname(file)).first, digest].join('-'), ex].join
@@ -123,10 +123,10 @@ module Bankrupt
   # @param md5 [String] md5 hash of the asset
   # @param hashless [Boolean] if the files doesn't have the hash appended
   # @return [String] new, full path to the asset
-  def create_fullpath(path, md5, hashless = false)
+  def create_fullpath(path, md5, hashless: false)
     return "/#{path}" if CDN.empty?
 
-    [CDN, append_md5(path, md5, hashless)].join('/')
+    [CDN, append_md5(path, md5, hashless: hashless)].join('/')
   end
 
   # Generate the asset HTML. If the asset exists in the lookup hash then
@@ -149,7 +149,7 @@ module Bankrupt
     begin
       details = ASSETS.fetch(path)
 
-      fullpath = create_fullpath(path, details[:md5], details[:hashless])
+      fullpath = create_fullpath(path, details[:md5], hashless: details[:hashless])
 
       @_assets[lookup_path] = Slim::Template.new { cdn }.render(
         ASSET.new(fullpath, details[:sri])
