@@ -3,6 +3,10 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
+## unreleased
+
+* Drop support for ruby 2.4.x.
+
 ## v2.1.2 2020-01-20
 
 Take options into account to ensure unique asset lookups.
