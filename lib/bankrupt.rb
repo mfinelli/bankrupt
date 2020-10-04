@@ -149,7 +149,8 @@ module Bankrupt
     begin
       details = ASSETS.fetch(path)
 
-      fullpath = create_fullpath(path, details[:md5], hashless: details[:hashless])
+      fullpath = create_fullpath(path, details[:md5],
+                                 hashless: details[:hashless])
 
       @_assets[lookup_path] = Slim::Template.new { cdn }.render(
         ASSET.new(fullpath, details[:sri])

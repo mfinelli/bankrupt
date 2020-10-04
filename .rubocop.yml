@@ -8,6 +8,9 @@ AllCops:
 Layout/ExtraSpacing:
   AllowForAlignment: false
 
+Layout/LineLength:
+  Max: 80
+
 Metrics/AbcSize:
   Max: 20
 
