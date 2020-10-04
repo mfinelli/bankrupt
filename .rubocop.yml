@@ -2,6 +2,7 @@
 require: rubocop-rspec
 
 AllCops:
+  NewCops: enable
   TargetRubyVersion: 2.4.0
 
 Layout/ExtraSpacing:

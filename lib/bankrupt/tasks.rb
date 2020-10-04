@@ -102,11 +102,11 @@ namespace :bankrupt do
     file_glob = '*.{css,jpg,js,pdf,png,svg,eot,ttf,woff,woff2}'
 
     config = begin
-               YAML.safe_load(File.read(File.join(APP_ROOT, '.bankrupt.yml')),
-                              [], [], true, symbolize_names: true)
-             rescue Errno::ENOENT
-               {}
-             end
+      YAML.safe_load(File.read(File.join(APP_ROOT, '.bankrupt.yml')),
+                     [], [], true, symbolize_names: true)
+    rescue Errno::ENOENT
+      {}
+    end
 
     Dir.glob(File.join(APP_ROOT, 'public', file_glob)).sort.each do |file|
       md5 = Digest::MD5.file(file).to_s
@@ -114,7 +114,7 @@ namespace :bankrupt do
 
       # undo the hash that we have webpack insert (but is important so the
       # final css uses the correct path)
-      if basename.match?(/\-#{md5}\.#{File.extname(file).delete('.')}$/)
+      if basename.match?(/-#{md5}\.#{File.extname(file).delete('.')}$/)
         File.rename(file,
                     (file = File.join(
                       File.dirname(file),
@@ -126,7 +126,7 @@ namespace :bankrupt do
         filename: basename,
         md5: md5,
         babble: Digest::MD5.file(file).bubblebabble,
-        sri: 'sha384-' + Digest::SHA384.file(file).base64digest.to_s
+        sri: "sha384-#{Digest::SHA384.file(file).base64digest}"
       }
 
       Array(config[:hashless]).each do |match|
