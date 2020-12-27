@@ -92,7 +92,7 @@ module Bankrupt
   # Return a precomputed asset path if it exists
   #
   # @param path [String] asset on which to perform the lookup
-  # @params options [String] the options string to use in the lookup
+  # @param options [String] the options string to use in the lookup
   # @return [String] the rendered slim template with the asset in place
   def lookup(path, options = nil)
     if actual_options?(options)
