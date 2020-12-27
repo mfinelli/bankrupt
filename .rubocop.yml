@@ -41,3 +41,6 @@ RSpec/MultipleExpectations:
 
 RSpec/NestedGroups:
   Max: 6
+
+RSpec/StubbedMock:
+  Enabled: false
