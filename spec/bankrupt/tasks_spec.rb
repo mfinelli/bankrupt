@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2019-2020 Mario Finelli
+# Copyright 2019-2021 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ RSpec.describe 'bankrupt' do
         acl: 'private',
         content_length: 23,
         content_type: 'text/css',
-        cache_control: 'public, max-age=31536000',
+        cache_control: 'public, max-age=31536000, immutable',
         server_side_encryption: 'AES256',
         storage_class: 'STANDARD',
         metadata: {
@@ -103,7 +103,7 @@ RSpec.describe 'bankrupt' do
         acl: 'private',
         content_length: 19,
         content_type: 'application/javascript',
-        cache_control: 'public, max-age=31536000',
+        cache_control: 'public, max-age=31536000, immutable',
         server_side_encryption: 'AES256',
         storage_class: 'STANDARD',
         metadata: {
@@ -118,7 +118,7 @@ RSpec.describe 'bankrupt' do
         acl: 'private',
         content_length: 15,
         content_type: 'application/javascript',
-        cache_control: 'public, max-age=31536000',
+        cache_control: 'public, max-age=31536000, immutable',
         server_side_encryption: 'AES256',
         storage_class: 'STANDARD',
         metadata: {

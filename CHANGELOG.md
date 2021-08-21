@@ -6,6 +6,7 @@ which adheres to [semantic versioning](https://semver.org).
 ## unreleased
 
 * Drop support for ruby 2.4.x.
+* Mark uploaded assets as `immutable` in the `Cache-Control` header.
 
 ## v2.1.2 2020-01-20
 

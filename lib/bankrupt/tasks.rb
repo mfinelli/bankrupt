@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018-2020 Mario Finelli
+# Copyright 2018-2021 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ namespace :bankrupt do
         # content_md5: Base64.strict_encode64(asset[:md5]),
         content_length: File.size(f),
         content_type: MiniMime.lookup_by_filename(f).content_type,
-        cache_control: 'public, max-age=31536000',
+        cache_control: 'public, max-age=31536000, immutable',
         server_side_encryption: 'AES256',
         storage_class: 'STANDARD',
         metadata: {
