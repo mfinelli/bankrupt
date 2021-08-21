@@ -3,7 +3,7 @@
 This file keeps track of changes between releases for the bankrupt project
 which adheres to [semantic versioning](https://semver.org).
 
-## unreleased
+## v3.0.0 2021-08-21
 
 * Drop support for ruby 2.4.x.
 * Mark uploaded assets as `immutable` in the `Cache-Control` header.
