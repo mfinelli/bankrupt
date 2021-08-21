@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018-2020 Mario Finelli
+# Copyright 2018-2021 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,21 +27,21 @@ RSpec.describe Bankrupt::Util do
           md5: 'a4197ed8dcb93d681801318bd25a41ed',
           babble: 'xonac-nozat-melar-nyzok-mukab-cosim-rigyh-pibuv-texyx',
           sri: 'sha384-3RDtjniIi2E/mmvcXsOOfu/zxDaJoztI9CiXJ4wWylYEw5ReQ+1' \
-            'HKelRqeQozAmx'
+               'HKelRqeQozAmx'
         },
         'app.js' => {
           filename: 'app.js',
           md5: '9b33890bb13bb1d8f975e9ab3902c05f',
           babble: 'xokof-fodyb-rysof-reset-mevel-hypip-ravib-dibyh-zaxyx',
           sri: 'sha384-b6Ge3qiUuSOTxlLyaCcrcVvMFp9rKcrpxcRlpfVGV6ILhqC7OEpJ' \
-            'ezUEfTE6KZ/T'
+               'ezUEfTE6KZ/T'
         },
         'hashless.js' => {
           filename: 'hashless.js',
           md5: '13fa42d157be30d32d1a805ff8af1735',
           babble: 'xegoz-pybat-cihar-vasyt-feroc-pabeh-zavyp-zahef-huxex',
           sri: 'sha384-yuXgTEKrfw3tBVlRAQnTwfx7w+NcSYkIBMDhm86HfozvIPf9VO5v' \
-            'FKDyiaqCtILC',
+               'FKDyiaqCtILC',
           hashless: true
         }
       }

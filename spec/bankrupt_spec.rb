@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018-2020 Mario Finelli
+# Copyright 2018-2021 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -69,15 +69,17 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/wow.jpg', options)
-              expect(i._assets['/img/wow.jpg?classimgaltimg']).to eq('<img ' \
-                'alt="img" class="img" crossorigin="anonymous" ' \
-                'src="/img/wow.jpg" />')
+              expect(i._assets['/img/wow.jpg?classimgaltimg']).to eq(
+                '<img alt="img" class="img" crossorigin="anonymous" ' \
+                'src="/img/wow.jpg" />'
+              )
             end
 
             it 'returns the expected html' do
-              expect(i.image('img/pod.jpg', options)).to eq('<img ' \
-                'alt="img" class="img" crossorigin="anonymous" ' \
-                'src="/img/pod.jpg" />')
+              expect(i.image('img/pod.jpg', options)).to eq(
+                '<img alt="img" class="img" crossorigin="anonymous" ' \
+                'src="/img/pod.jpg" />'
+              )
             end
           end
         end
@@ -105,8 +107,9 @@ RSpec.describe Bankrupt do
             end
 
             it 'returns the expected html' do
-              expect(i.image('img/major.jpg', options)).to eq('<img ' \
-                'alt="img" class="img" src="/img/major.jpg" />')
+              expect(i.image('img/major.jpg', options)).to eq(
+                '<img alt="img" class="img" src="/img/major.jpg" />'
+              )
             end
           end
         end
@@ -133,13 +136,15 @@ RSpec.describe Bankrupt do
           end
 
           it 'returns the correct html for the first asset' do
-            expect(i.image('img/pic.png', class: 'one')).to eq('<img ' \
-              'class="one" crossorigin="anonymous" src="/img/pic.png" />')
+            expect(i.image('img/pic.png', class: 'one')).to eq(
+              '<img class="one" crossorigin="anonymous" src="/img/pic.png" />'
+            )
           end
 
           it 'returns the correct html for the second asset' do
-            expect(i.image('img/pic.png', class: 'two')).to eq('<img ' \
-              'class="two" crossorigin="anonymous" src="/img/pic.png" />')
+            expect(i.image('img/pic.png', class: 'two')).to eq(
+              '<img class="two" crossorigin="anonymous" src="/img/pic.png" />'
+            )
           end
         end
       end
@@ -187,15 +192,17 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/top.jpg', options)
-              expect(i._assets['/img/top.jpg?classimgaltimg']).to eq('<img ' \
-                'alt="img" class="img" crossorigin="anonymous" ' \
-                'src="https://example.com/img/top-def.jpg" />')
+              expect(i._assets['/img/top.jpg?classimgaltimg']).to eq(
+                '<img alt="img" class="img" crossorigin="anonymous" ' \
+                'src="https://example.com/img/top-def.jpg" />'
+              )
             end
 
             it 'returns the expected html' do
-              expect(i.image('img/bag.jpg', options)).to eq('<img ' \
-                'alt="img" class="img" crossorigin="anonymous" ' \
-                'src="https://example.com/img/bag-ghi.jpg" />')
+              expect(i.image('img/bag.jpg', options)).to eq(
+                '<img alt="img" class="img" crossorigin="anonymous" ' \
+                'src="https://example.com/img/bag-ghi.jpg" />'
+              )
             end
           end
 
@@ -203,9 +210,10 @@ RSpec.describe Bankrupt do
             let(:i) { klass.new }
 
             it 'returns the expected html' do
-              expect(i.image('img/hop.jpg', options)).to eq('<img ' \
-                'alt="img" class="img" crossorigin="anonymous" ' \
-                'src="https://example.com/img/hop.jpg" />')
+              expect(i.image('img/hop.jpg', options)).to eq(
+                '<img alt="img" class="img" crossorigin="anonymous" ' \
+                'src="https://example.com/img/hop.jpg" />'
+              )
             end
           end
         end
@@ -227,13 +235,15 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/card.jpg', options)
-              expect(i._assets['/img/card.jpg?classimgaltimg']).to eq('<img ' \
-                'alt="img" class="img" src="/img/card.jpg" />')
+              expect(i._assets['/img/card.jpg?classimgaltimg']).to eq(
+                '<img alt="img" class="img" src="/img/card.jpg" />'
+              )
             end
 
             it 'returns the expected html' do
-              expect(i.image('img/side.jpg', options)).to eq('<img ' \
-                'alt="img" class="img" src="/img/side.jpg" />')
+              expect(i.image('img/side.jpg', options)).to eq(
+                '<img alt="img" class="img" src="/img/side.jpg" />'
+              )
             end
           end
         end
@@ -278,13 +288,15 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/wow.jpg')
-              expect(i._assets['/img/wow.jpg']).to eq('<img ' \
-                'crossorigin="anonymous" src="/img/wow.jpg" />')
+              expect(i._assets['/img/wow.jpg']).to eq(
+                '<img crossorigin="anonymous" src="/img/wow.jpg" />'
+              )
             end
 
             it 'returns the expected html' do
-              expect(i.image('img/pod.jpg')).to eq('<img ' \
-                'crossorigin="anonymous" src="/img/pod.jpg" />')
+              expect(i.image('img/pod.jpg')).to eq(
+                '<img crossorigin="anonymous" src="/img/pod.jpg" />'
+              )
             end
           end
         end
@@ -306,13 +318,15 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/another.jpg')
-              expect(i._assets['/img/another.jpg']).to eq('<img ' \
-                'src="/img/another.jpg" />')
+              expect(i._assets['/img/another.jpg']).to eq(
+                '<img src="/img/another.jpg" />'
+              )
             end
 
             it 'returns the expected html' do
-              expect(i.image('img/major.jpg')).to eq('<img ' \
-                'src="/img/major.jpg" />')
+              expect(i.image('img/major.jpg')).to eq(
+                '<img src="/img/major.jpg" />'
+              )
             end
           end
         end
@@ -361,15 +375,17 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/top.jpg')
-              expect(i._assets['/img/top.jpg']).to eq('<img ' \
-                'crossorigin="anonymous" ' \
-                'src="https://example.com/img/top-def.jpg" />')
+              expect(i._assets['/img/top.jpg']).to eq(
+                '<img crossorigin="anonymous" ' \
+                'src="https://example.com/img/top-def.jpg" />'
+              )
             end
 
             it 'returns the expected html' do
-              expect(i.image('img/bag.jpg')).to eq('<img ' \
-                'crossorigin="anonymous" ' \
-                'src="https://example.com/img/bag-ghi.jpg" />')
+              expect(i.image('img/bag.jpg')).to eq(
+                '<img crossorigin="anonymous" ' \
+                'src="https://example.com/img/bag-ghi.jpg" />'
+              )
             end
           end
 
@@ -377,9 +393,10 @@ RSpec.describe Bankrupt do
             let(:i) { klass.new }
 
             it 'returns the expected html' do
-              expect(i.image('img/hop.jpg')).to eq('<img ' \
-                'crossorigin="anonymous" ' \
-                'src="https://example.com/img/hop.jpg" />')
+              expect(i.image('img/hop.jpg')).to eq(
+                '<img crossorigin="anonymous" ' \
+                'src="https://example.com/img/hop.jpg" />'
+              )
             end
           end
         end
@@ -401,13 +418,15 @@ RSpec.describe Bankrupt do
 
             it 'adds it to the lookup cache' do
               i.image('img/card.jpg')
-              expect(i._assets['/img/card.jpg']).to eq('<img ' \
-                'src="/img/card.jpg" />')
+              expect(i._assets['/img/card.jpg']).to eq(
+                '<img src="/img/card.jpg" />'
+              )
             end
 
             it 'returns the expected html' do
-              expect(i.image('img/side.jpg')).to eq('<img ' \
-                'src="/img/side.jpg" />')
+              expect(i.image('img/side.jpg')).to eq(
+                '<img src="/img/side.jpg" />'
+              )
             end
           end
         end
@@ -453,15 +472,17 @@ RSpec.describe Bankrupt do
 
           it 'adds it to the lookup cache' do
             i.javascript('js/boom.js')
-            expect(i._assets['/js/boom.js']).to eq('<script ' \
-              'crossorigin="anonymous" integrity="456" src="/js/boom.js">' \
-              '</script>')
+            expect(i._assets['/js/boom.js']).to eq(
+              '<script crossorigin="anonymous" integrity="456" ' \
+              'src="/js/boom.js"></script>'
+            )
           end
 
           it 'returns the expected html' do
-            expect(i.javascript('js/done.js')).to eq('<script ' \
-              'crossorigin="anonymous" integrity="789" src="/js/done.js">' \
-              '</script>')
+            expect(i.javascript('js/done.js')).to eq(
+              '<script crossorigin="anonymous" integrity="789" ' \
+              'src="/js/done.js"></script>'
+            )
           end
         end
       end
@@ -483,13 +504,15 @@ RSpec.describe Bankrupt do
 
           it 'adds it to the lookup cache' do
             i.javascript('js/test.js')
-            expect(i._assets['/js/test.js']).to eq('<script ' \
-              'src="/js/test.js"></script>')
+            expect(i._assets['/js/test.js']).to eq(
+              '<script src="/js/test.js"></script>'
+            )
           end
 
           it 'returns the expected html' do
-            expect(i.javascript('js/html.js')).to eq('<script ' \
-              'src="/js/html.js"></script>')
+            expect(i.javascript('js/html.js')).to eq(
+              '<script src="/js/html.js"></script>'
+            )
           end
         end
       end
@@ -538,15 +561,17 @@ RSpec.describe Bankrupt do
 
           it 'adds it to the lookup cache' do
             i.javascript('js/add.js')
-            expect(i._assets['/js/add.js']).to eq('<script ' \
-              'crossorigin="anonymous" integrity="456" ' \
-              'src="https://example.com/js/add-def.js"></script>')
+            expect(i._assets['/js/add.js']).to eq(
+              '<script crossorigin="anonymous" integrity="456" ' \
+              'src="https://example.com/js/add-def.js"></script>'
+            )
           end
 
           it 'returns the expected html' do
-            expect(i.javascript('js/cdn.js')).to eq('<script ' \
-              'crossorigin="anonymous" integrity="789" ' \
-              'src="https://example.com/js/cdn-ghi.js"></script>')
+            expect(i.javascript('js/cdn.js')).to eq(
+              '<script crossorigin="anonymous" integrity="789" ' \
+              'src="https://example.com/js/cdn-ghi.js"></script>'
+            )
           end
         end
 
@@ -554,9 +579,10 @@ RSpec.describe Bankrupt do
           let(:i) { klass.new }
 
           it 'returns the expected html' do
-            expect(i.javascript('js/rap.js')).to eq('<script ' \
-            'crossorigin="anonymous" integrity="123" ' \
-            'src="https://example.com/js/rap.js"></script>')
+            expect(i.javascript('js/rap.js')).to eq(
+              '<script crossorigin="anonymous" integrity="123" ' \
+              'src="https://example.com/js/rap.js"></script>'
+            )
           end
         end
       end
@@ -578,13 +604,15 @@ RSpec.describe Bankrupt do
 
           it 'adds it to the lookup cache' do
             i.javascript('js/piu.js')
-            expect(i._assets['/js/piu.js']).to eq('<script ' \
-              'src="/js/piu.js"></script>')
+            expect(i._assets['/js/piu.js']).to eq(
+              '<script src="/js/piu.js"></script>'
+            )
           end
 
           it 'returns the expected html' do
-            expect(i.javascript('js/fat.js')).to eq('<script ' \
-              'src="/js/fat.js"></script>')
+            expect(i.javascript('js/fat.js')).to eq(
+              '<script src="/js/fat.js"></script>'
+            )
           end
         end
       end
@@ -629,15 +657,17 @@ RSpec.describe Bankrupt do
 
           it 'adds it to the lookup cache' do
             i.stylesheet('css/boom.css')
-            expect(i._assets['/css/boom.css']).to eq('<link ' \
-              'crossorigin="anonymous" href="/css/boom.css" integrity="456" ' \
-              'rel="stylesheet" />')
+            expect(i._assets['/css/boom.css']).to eq(
+              '<link crossorigin="anonymous" href="/css/boom.css" ' \
+              'integrity="456" rel="stylesheet" />'
+            )
           end
 
           it 'returns the expected html' do
-            expect(i.stylesheet('css/done.css')).to eq('<link ' \
-              'crossorigin="anonymous" href="/css/done.css" integrity="789" ' \
-              'rel="stylesheet" />')
+            expect(i.stylesheet('css/done.css')).to eq(
+              '<link crossorigin="anonymous" href="/css/done.css" ' \
+              'integrity="789" rel="stylesheet" />'
+            )
           end
         end
       end
@@ -659,13 +689,15 @@ RSpec.describe Bankrupt do
 
           it 'adds it to the lookup cache' do
             i.stylesheet('css/test.css')
-            expect(i._assets['/css/test.css']).to eq('<link ' \
-              'href="/css/test.css" rel="stylesheet" />')
+            expect(i._assets['/css/test.css']).to eq(
+              '<link href="/css/test.css" rel="stylesheet" />'
+            )
           end
 
           it 'returns the expected html' do
-            expect(i.stylesheet('css/html.css')).to eq('<link ' \
-              'href="/css/html.css" rel="stylesheet" />')
+            expect(i.stylesheet('css/html.css')).to eq(
+              '<link href="/css/html.css" rel="stylesheet" />'
+            )
           end
         end
       end
@@ -714,17 +746,19 @@ RSpec.describe Bankrupt do
 
           it 'adds it to the lookup cache' do
             i.stylesheet('css/add.css')
-            expect(i._assets['/css/add.css']).to eq('<link ' \
-              'crossorigin="anonymous" ' \
+            expect(i._assets['/css/add.css']).to eq(
+              '<link crossorigin="anonymous" ' \
               'href="https://example.com/css/add-def.css" integrity="456" ' \
-              'rel="stylesheet" />')
+              'rel="stylesheet" />'
+            )
           end
 
           it 'returns the expected html' do
-            expect(i.stylesheet('css/cdn.css')).to eq('<link ' \
-              'crossorigin="anonymous" ' \
+            expect(i.stylesheet('css/cdn.css')).to eq(
+              '<link crossorigin="anonymous" ' \
               'href="https://example.com/css/cdn-ghi.css" integrity="789" ' \
-              'rel="stylesheet" />')
+              'rel="stylesheet" />'
+            )
           end
         end
 
@@ -732,10 +766,11 @@ RSpec.describe Bankrupt do
           let(:i) { klass.new }
 
           it 'returns the expected html' do
-            expect(i.stylesheet('css/day.css')).to eq('<link ' \
-              'crossorigin="anonymous" ' \
+            expect(i.stylesheet('css/day.css')).to eq(
+              '<link crossorigin="anonymous" ' \
               'href="https://example.com/css/day.css" integrity="123" ' \
-              'rel="stylesheet" />')
+              'rel="stylesheet" />'
+            )
           end
         end
       end
@@ -757,13 +792,15 @@ RSpec.describe Bankrupt do
 
           it 'adds it to the lookup cache' do
             i.stylesheet('css/piu.css')
-            expect(i._assets['/css/piu.css']).to eq('<link ' \
-              'href="/css/piu.css" rel="stylesheet" />')
+            expect(i._assets['/css/piu.css']).to eq(
+              '<link href="/css/piu.css" rel="stylesheet" />'
+            )
           end
 
           it 'returns the expected html' do
-            expect(i.stylesheet('css/fat.css')).to eq('<link ' \
-              'href="/css/fat.css" rel="stylesheet" />')
+            expect(i.stylesheet('css/fat.css')).to eq(
+              '<link href="/css/fat.css" rel="stylesheet" />'
+            )
           end
         end
       end

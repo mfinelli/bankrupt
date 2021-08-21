@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright 2018 Mario Finelli
+# Copyright 2018-2021 Mario Finelli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ module Bankrupt
     # @param path [String] path to the manifest
     # @return [Hash] parsed manifest or empty hash on error
     def self.parse_manifest(path)
-      Hash[JSON.parse(File.read(path)).map do |k, v|
-        [k.freeze, Hash[v.map { |l, b| [l.to_sym, b.freeze] }].freeze]
-      end].freeze
+      JSON.parse(File.read(path)).map do |k, v|
+        [k.freeze, v.map { |l, b| [l.to_sym, b.freeze] }.to_h.freeze]
+      end.to_h.freeze
     rescue StandardError
       {}
     end

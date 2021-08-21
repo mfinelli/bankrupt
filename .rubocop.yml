@@ -29,6 +29,7 @@ RSpec/DescribeClass:
     - 'spec/bankrupt/tasks_spec.rb'
 
 RSpec/ExampleLength:
+  Max: 6
   Exclude:
     - 'spec/bankrupt/tasks_spec.rb'
 
