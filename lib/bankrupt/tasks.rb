@@ -29,7 +29,7 @@ namespace :bankrupt do
     s3 = Aws::S3::Client.new(region: 'eu-west-1')
 
     JSON.parse(File.read(File.join(APP_ROOT, 'tmp', 'assets.json')),
-               symbolize_names: true).each do |_key, asset|
+               symbolize_names: true).each_value do |asset|
       r = s3.put_object(
         bucket: CDN_BUCKET,
         key: if asset[:hashless]
@@ -102,13 +102,13 @@ namespace :bankrupt do
     file_glob = '*.{css,jpg,js,pdf,png,svg,eot,ttf,woff,woff2}'
 
     config = begin
-      YAML.safe_load(File.read(File.join(APP_ROOT, '.bankrupt.yml')),
-                     [], [], true, symbolize_names: true)
+      YAML.safe_load_file(File.join(APP_ROOT, '.bankrupt.yml'),
+                          [], [], true, symbolize_names: true)
     rescue Errno::ENOENT
       {}
     end
 
-    Dir.glob(File.join(APP_ROOT, 'public', file_glob)).sort.each do |file|
+    Dir.glob(File.join(APP_ROOT, 'public', file_glob)).each do |file|
       md5 = Digest::MD5.file(file).to_s
       basename = File.basename(file)
 
@@ -116,10 +116,10 @@ namespace :bankrupt do
       # final css uses the correct path)
       if basename.match?(/-#{md5}\.#{File.extname(file).delete('.')}$/)
         File.rename(file,
-                    (file = File.join(
+                    file = File.join(
                       File.dirname(file),
-                      (basename = basename.gsub("-#{md5}", ''))
-                    )))
+                      basename = basename.gsub("-#{md5}", '')
+                    ))
       end
 
       manifest[basename] = {

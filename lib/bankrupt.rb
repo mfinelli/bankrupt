@@ -167,7 +167,7 @@ module Bankrupt
   # @param options [Hash] the options has to convert
   # @return [String] concatenated options suitable for use in lookups
   def options_string(options)
-    return nil if Hash(options).size.zero?
+    return nil if Hash(options).empty?
 
     options.map do |k, v|
       [k.to_s, v.to_s].join
@@ -182,7 +182,7 @@ module Bankrupt
   def actual_options?(options)
     return false if options.nil?
 
-    if (options.is_a?(String) || options.is_a?(Hash)) && !options.size.zero?
+    if (options.is_a?(String) || options.is_a?(Hash)) && !options.empty?
       true
     else
       false

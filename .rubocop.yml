@@ -1,11 +1,17 @@
 ---
-require:
+plugins:
   - rubocop-rake
   - rubocop-rspec
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.5.0
+  TargetRubyVersion: 3.2.0
+
+Gemspec/RequireMFA:
+  Enabled: false
+
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
 
 Layout/ExtraSpacing:
   AllowForAlignment: false

@@ -22,6 +22,7 @@ RSpec.describe Bankrupt do
       attr_accessor :_assets
 
       include Bankrupt
+
       def initialize
         @_assets = {}
       end

@@ -56,14 +56,14 @@ RSpec.describe Bankrupt::Util do
     end
 
     it 'deep freezes the hash - keys' do
-      described_class.parse_manifest(manifest).each do |k, _|
-        expect(k.frozen?).to eq(true)
+      described_class.parse_manifest(manifest).each_key do |k|
+        expect(k.frozen?).to be(true)
       end
     end
 
     it 'deep freezes the hash - values' do
-      described_class.parse_manifest(manifest).each do |_, v|
-        v.each { |_, s| expect(s.frozen?).to eq(true) }
+      described_class.parse_manifest(manifest).each_value do |v|
+        v.each_value { |s| expect(s.frozen?).to be(true) }
       end
     end
 
