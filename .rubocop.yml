@@ -1,5 +1,5 @@
 ---
-require:
+plugins:
   - rubocop-rake
   - rubocop-rspec
 
@@ -9,6 +9,9 @@ AllCops:
 
 Gemspec/RequireMFA:
   Enabled: false
+
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
 
 Layout/ExtraSpacing:
   AllowForAlignment: false

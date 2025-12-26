@@ -22,9 +22,9 @@ module Bankrupt
     # @param path [String] path to the manifest
     # @return [Hash] parsed manifest or empty hash on error
     def self.parse_manifest(path)
-      JSON.parse(File.read(path)).map do |k, v|
-        [k.freeze, v.map { |l, b| [l.to_sym, b.freeze] }.to_h.freeze]
-      end.to_h.freeze
+      JSON.parse(File.read(path)).to_h do |k, v|
+        [k.freeze, v.to_h { |l, b| [l.to_sym, b.freeze] }.freeze]
+      end.freeze
     rescue StandardError
       {}
     end
